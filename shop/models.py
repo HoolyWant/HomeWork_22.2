@@ -8,7 +8,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=150, verbose_name='продукт')
     description = models.CharField(max_length=150, verbose_name='описание', **NULLABLE)
     preview = models.ImageField(upload_to='products/', verbose_name='изображение', **NULLABLE)
-    category = models.CharField(max_length=150, verbose_name='категория', **NULLABLE)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='категория', **NULLABLE)
     buy_cost = models.IntegerField(verbose_name='стоимость покупки')
     user = models.ForeignKey('users.User', on_delete=models.CASCADE,
                                 verbose_name='пользователь',
@@ -25,6 +25,18 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+
+
+class Category(models.Model):
+    title = models.CharField(max_length=50, verbose_name='категория')
+    description = models.TextField(verbose_name='описание', **NULLABLE)
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        verbose_name = 'категория'
+        verbose_name_plural = 'категории'
 
 
 class Blog(models.Model):

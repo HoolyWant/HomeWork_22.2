@@ -5,7 +5,6 @@ from shop.models import Product
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        # Product.objects.all().delete()
         Product.truncate_table_restart_id()
         product_list = [
             {'product_name': 'Установка винды', 'description': 'Чистая установка',
