@@ -12,29 +12,33 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+dot_env = os.path.join(BASE_DIR, '.env')
+load_dotenv(dotenv_path=dot_env)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#f_0oa68+rs6i&j$9e2@8at+&w3)@+r&arjtnl$5izjtkiv6^6'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-CACHE_ENABLED = True
+CACHE_ENABLED = os.getenv('CACHE_ENABLED') == True
 
 if CACHE_ENABLED:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": "redis://127.0.0.1:6379",
-        }
+            "LOCATION": os.getenv('LOCATION')}
     }
 
 # Application definition
@@ -95,7 +99,7 @@ DATABASES = {
         'NAME': 'HomeWork20.2',
         'HOST': 'localhost',
         'USER': 'postgres',
-        'PASSWORD': 'qwerty',
+        'PASSWORD': os.getenv('DB_PASSWORD'),
     }
 }
 
@@ -154,9 +158,9 @@ EMAIL_PORT = 465
 
 EMAIL_USE_SSL = True
 
-EMAIL_HOST_USER: str = 'EMAIL_HOST_USER'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 
-EMAIL_HOST_PASSWORD: str = 'EMAIL_HOST_PASSWORD'
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 EMAIL_USE_TLS = False
 
